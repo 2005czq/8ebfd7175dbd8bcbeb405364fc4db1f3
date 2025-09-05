@@ -107,3 +107,29 @@ def calc_interference(plane_v, drop_t, explode_t):
         current_t += dt
         
     return total_interference_time
+
+if __name__ == "__main__":
+    # 1. 计算飞机速度矢量
+    # "以 120m/s 的速度朝 (0,0,0) 飞行"，且"保持高度不变"
+    plane_speed = 120.0
+    # 只考虑XY平面上的方向
+    plane_dir_xy = -plane_1[:2] 
+    plane_dir_unit_xy = plane_dir_xy / np.linalg.norm(plane_dir_xy)
+    plane_v_xy = plane_speed * plane_dir_unit_xy
+    # 组合成3D速度矢量
+    plane_velocity_vector = np.array([plane_v_xy[0], plane_v_xy[1], 0.0])
+
+    # 2. 设定投放和起爆参数
+    drop_time = 1.5
+    explode_interval = 3.6
+
+    # 3. 调用函数计算
+    interference_duration = calc_interference(plane_velocity_vector, drop_time, explode_interval)
+
+    # 4. 打印结果
+    print(f"飞机初始位置: {plane_1}")
+    print(f"飞机速度矢量: {np.round(plane_velocity_vector, 2)} m/s")
+    print(f"投放时间: {drop_time} s")
+    print(f"起爆间隔: {explode_interval} s")
+    print("-" * 30)
+    print(f"导弹被干扰的总时长为: {interference_duration:.4f} 秒")
